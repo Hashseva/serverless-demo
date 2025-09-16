@@ -19,11 +19,6 @@ resource "aws_dynamodb_table" "contacts" {
   name         = "contacts"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "id"
-
-  attribute {
-    name = "id"
-    type = "S"
-  }
 }
 
 resource "aws_iam_role" "lambda_exec" {
