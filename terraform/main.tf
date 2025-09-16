@@ -8,10 +8,10 @@ provider "aws" {
   skip_requesting_account_id  = true
 
   endpoints {
-    lambda     = "http://ip10-0-52-4-d34gvgvtq0k1c7corn4g-4566.direct.lab-boris.fr"
-    apigateway = "http://ip10-0-52-4-d34gvgvtq0k1c7corn4g-4566.direct.lab-boris.fr"
-    iam        = "http://ip10-0-52-4-d34gvgvtq0k1c7corn4g-4566.direct.lab-boris.fr"
-    dynamodb   = "http://ip10-0-52-4-d34gvgvtq0k1c7corn4g-4566.direct.lab-boris.fr"
+    lambda     = "http://ip10-0-7-4-cvi159ib9qb14bivkpt0-4566.direct.lab-boris.fr"
+    apigateway = "http://ip10-0-7-4-cvi159ib9qb14bivkpt0-4566.direct.lab-boris.fr"
+    iam        = "http://ip10-0-7-4-cvi159ib9qb14bivkpt0-4566.direct.lab-boris.fr"
+    dynamodb   = "http://ip10-0-7-4-cvi159ib9qb14bivkpt0-4566.direct.lab-boris.fr"
   }
 }
 
@@ -39,13 +39,20 @@ resource "aws_lambda_function" "api" {
   timeout       = 15
   environment {
     variables = {
-      TABLE_NAME = data.aws_dynamodb_table.contacts.name
+      TABLE_NAME = aws_dynamodb_table.contacts.name
     }
   }
 }
 
 resource "aws_dynamodb_table" "contacts" {
   name         = "contacts"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "id"
+
+  attribute {
+    name = "id"
+    type = "S"
+  }
 }
 
 resource "aws_api_gateway_rest_api" "api" {
